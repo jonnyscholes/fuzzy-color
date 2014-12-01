@@ -36,6 +36,50 @@ test('RGBA test', function (t) {
 	});
 });
 
+test('RGBA test with .5 opacity', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('rgba(0,0,0,.5)');
+
+	t.deepEqual(rgb, {
+		string: 'rgba(0,0,0,.5)',
+		raw: [0, 0, 0,.5],
+		type: 'rgba'
+	});
+});
+
+test('assumeType=rgb with valid rgb value test - "0, 0, 0"', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('0, 0, 0', 'rgb');
+
+	t.deepEqual(rgb, {
+		string: 'rgb(0,0,0)',
+		raw: [0, 0, 0],
+		type: 'rgb'
+	});
+});
+
+test('assumeType=rgb with valid rgb value test and no commas - "0 0 0"', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('0 0 0', 'rgb');
+
+	t.deepEqual(rgb, {
+		string: 'rgb(0,0,0)',
+		raw: [0, 0, 0],
+		type: 'rgb'
+	});
+});
+
+test('assumeType=rgb with valid rgbA value test - "0, 0, 0, .5"', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('0, 0, 0, .5', 'rgb');
+
+	t.deepEqual(rgb, {
+		string: 'rgba(0,0,0,.5)',
+		raw: [0, 0, 0, .5],
+		type: 'rgba'
+	});
+});
+
 
 test('3 char HEX test', function (t) {
 	t.plan(1);
@@ -83,6 +127,3 @@ test('Adobe format #2 test eg (R145 / G145 / B149)', function (t) {
 		type: 'adobe'
 	});
 });
-
-// support R:252 G:252 B:252
-// support (R145 / G145 / B149)

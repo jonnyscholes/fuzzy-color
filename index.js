@@ -1,10 +1,11 @@
 module.exports = parse;
 
-function parse(str) {
+function parse(str, assumeType) {
 	return rgb(str)
 		|| rgba(str)
 		|| other(str)
-		|| hex(str);
+		|| hex(str)
+		|| assume(str, assumeType);
 }
 
 
@@ -60,9 +61,39 @@ function rgba(str) {
 		}
 		return {
 			string: 'rgba(' + rgb.join(',') + ')',
-			raw: rgb.map(function(i){ return parseInt(i, 10); }),
+			raw: rgb.map(function(i){ return parseFloat(i); }),
 			type: 'rgba'
 		};
+	}
+	return false;
+}
+
+
+/**
+* Parse 0, 0, 0 | 0, 0, 0, 0 | 0 0 0 | 0 0 0 0
+*
+* @param {String} str
+* @param {String} type - the type to assume number only values are. eg 'rgb', 'hsv', 'hsl'
+* @return {Object}
+* @api private
+*/
+
+function assume(str, type) {
+	var result = str.replace(/,/g, '').replace(/  /g, ' ').split(' ');
+	if (result.length >= 3) {
+		if (result.length === 4) {
+			return {
+				string: 'rgba(' + result.join(',') + ')',
+				raw: result.map(function(i){ return parseFloat(i); }),
+				type: 'rgba'
+			};
+		} else {
+			return {
+				string: type + '(' + result.join(',') + ')',
+				raw: result.map(function(i){ return parseInt(i, 10); }),
+				type: type
+			};
+		}
 	}
 	return false;
 }
