@@ -1,6 +1,7 @@
 module.exports = parse;
 
 function parse(str, assumeType) {
+
 	return rgb(str)
 		|| rgba(str)
 		|| other(str)
@@ -70,7 +71,7 @@ function rgba(str) {
 
 
 /**
-* Parse 0, 0, 0 | 0, 0, 0, 0 | 0 0 0 | 0 0 0 0
+* Parse 0, 0, 0 | 0, 0, 0, 0 | 0 0 0 | 0 0 0 0 | 0 0 0 .6
 *
 * @param {String} str
 * @param {String} type - the type to assume number only values are. eg 'rgb', 'hsv', 'hsl'
@@ -79,8 +80,9 @@ function rgba(str) {
 */
 
 function assume(str, type) {
-	var result = str.replace(/,/g, '').replace(/  /g, ' ').split(' ');
-	if (result.length >= 3) {
+	var result = str.replace(/,/g, ' ').replace(/  /g, ' ').split(' ').filter(function(a){return a.length > 0});
+
+	if (result.length >= 3 && str.match(/[0-9,. ]/g).length === str.length) {
 		if (result.length === 4) {
 			return {
 				string: 'rgba(' + result.join(',') + ')',
@@ -109,9 +111,8 @@ function assume(str, type) {
 
 function hex(str) {
 	var hex = str.trim().replace('#', '');
-	var validChars = 'abcedfABCDEF0123456789';
 
-	if ((hex.length === 3 || hex.length === 6) && containsOnlyChars(validChars, hex)) {
+	if ((hex.length === 3 || hex.length === 6) && hex.match(/[a-zA-Z0-9]/g).length === hex.length) {
 		return {
 			string: '#' + hex,
 			raw: hexToRgb(hex),
@@ -148,26 +149,6 @@ function other(str) {
 			raw: rgb.map(function(i){ return parseInt(i, 10); }),
 			type: 'adobe'
 		};
-	}
-	return false;
-}
-
-
-/**
-* Check that a string only contains a subset of characters
-*
-* @param {Array} needles
-* @param {Array} stack
-* @return {Boolean}
-* @api private
-*/
-
-function containsOnlyChars(needles, stack) {
-	for (var i = 0; i < needles.length; i++) {
-		stack = stack.replace(new RegExp(needles[i], 'g'), '');
-		if (stack.length === 0) {
-			return true;
-		}
 	}
 	return false;
 }

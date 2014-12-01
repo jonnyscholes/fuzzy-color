@@ -1,6 +1,6 @@
 {
 	"name": "fuzzy-color",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Fuzzy color is a utility that takes a string and does its absolute best to parse a meaningful color value from it.",
 	"repository": "https://github.com/jonnyscholes/fuzzy-color",
 	"author": "Jonny Scholes",

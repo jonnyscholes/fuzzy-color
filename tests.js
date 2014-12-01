@@ -1,7 +1,6 @@
 var test = require('tape');
 var fuzzyColor = require('./index.js');
 
-console.log(fuzzyColor('rgb(34,256,222)'));
 
 
 
@@ -47,6 +46,7 @@ test('RGBA test with .5 opacity', function (t) {
 	});
 });
 
+
 test('assumeType=rgb with valid rgb value test - "0, 0, 0"', function (t) {
 	t.plan(1);
 	var rgb = fuzzyColor('0, 0, 0', 'rgb');
@@ -58,6 +58,7 @@ test('assumeType=rgb with valid rgb value test - "0, 0, 0"', function (t) {
 	});
 });
 
+
 test('assumeType=rgb with valid rgb value test and no commas - "0 0 0"', function (t) {
 	t.plan(1);
 	var rgb = fuzzyColor('0 0 0', 'rgb');
@@ -68,6 +69,31 @@ test('assumeType=rgb with valid rgb value test and no commas - "0 0 0"', functio
 		type: 'rgb'
 	});
 });
+
+
+test('assumeType=rgb with valid rgb value with mixed spaces - "0,0, 0"', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('0,0, 0', 'rgb');
+
+	t.deepEqual(rgb, {
+		string: 'rgb(0,0,0)',
+		raw: [0, 0, 0],
+		type: 'rgb'
+	});
+});
+
+
+test('assumeType=rgb with valid rgb value with trailing comma - "0, 0, 0,"', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('0, 0, 0,', 'rgb');
+
+	t.deepEqual(rgb, {
+		string: 'rgb(0,0,0)',
+		raw: [0, 0, 0],
+		type: 'rgb'
+	});
+});
+
 
 test('assumeType=rgb with valid rgbA value test - "0, 0, 0, .5"', function (t) {
 	t.plan(1);
