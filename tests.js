@@ -15,6 +15,16 @@ test('RGB test', function (t) {
 	});
 });
 
+test('RGB test - w/ ;', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('rgb(34,210,222);');
+
+	t.deepEqual(rgb, {
+		string: 'rgb(34,210,222)',
+		raw: [34,210,222],
+		type: 'rgb'
+	});
+});
 
 test('RGB test - w/ number over 255', function (t) {
 	t.plan(1);
@@ -130,6 +140,16 @@ test('6 char HEX test', function (t) {
 	});
 });
 
+test('6 char HEX test - w/ ;', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('#000000;');
+
+	t.deepEqual(rgb, {
+		string: '#000000',
+		raw: [0, 0, 0],
+		type: 'hex'
+	});
+});
 
 test('Adobe format #1 test eg R:252 G:252 B:252', function (t) {
 	t.plan(1);

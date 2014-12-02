@@ -22,6 +22,7 @@ function rgb(str) {
 	if (str.indexOf('rgb(') !== -1) {
 		var rgb = str.trim()
 			.replace(/rgb?\(/, '')
+			.replace(/;/g, '')
 			.replace(')', '')
 			.split(',')
 			.filter(function (elm) { return elm.replace(new RegExp(/\s/g), '').length > 0; })
@@ -52,6 +53,7 @@ function rgba(str) {
 	if (str.indexOf('rgba(') !== -1) {
 		var rgb = str.trim()
 			.replace(/rgba?\(/, '')
+			.replace(/;/g, '')
 			.replace(')', '')
 			.split(',')
 			.filter(function (elm) { return elm.replace(new RegExp(/\s/g), '').length > 0; })
@@ -110,7 +112,7 @@ function assume(str, type) {
 */
 
 function hex(str) {
-	var hex = str.trim().replace('#', '');
+	var hex = str.trim().replace('#', '').replace(/;/g, '');
 
 	if ((hex.length === 3 || hex.length === 6) && hex.match(/[a-zA-Z0-9]/g).length === hex.length) {
 		return {
