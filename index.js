@@ -114,7 +114,7 @@ function assume(str, type) {
 function hex(str) {
 	var hex = str.trim().replace('#', '').replace(/;/g, '');
 
-	if ((hex.length === 3 || hex.length === 6) && hex.match(/[a-zA-Z0-9]/g).length === hex.length) {
+	if ((hex.length === 3 || hex.length === 6) && hex.match(/[a-fA-Z0-9]/g).length === hex.length) {
 		return {
 			string: '#' + hex,
 			raw: hexToRgb(hex),

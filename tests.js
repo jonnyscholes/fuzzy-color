@@ -1,9 +1,6 @@
 var test = require('tape');
 var fuzzyColor = require('./index.js');
 
-
-
-
 test('RGB test', function (t) {
 	t.plan(1);
 	var rgb = fuzzyColor('rgb(34,210,222)');
@@ -172,4 +169,16 @@ test('Adobe format #2 test eg (R145 / G145 / B149)', function (t) {
 		raw: [0, 0, 0],
 		type: 'adobe'
 	});
+});
+
+
+// Should fail
+
+
+
+test('String check 3char - "2px"', function (t) {
+	t.plan(1);
+	var rgb = fuzzyColor('2px');
+
+	t.equal(rgb, false);
 });
